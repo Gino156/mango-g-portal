@@ -11,26 +11,19 @@ const redis = new Redis({
 // Limit: 3 messages per 1 minute per IP address
 const ratelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.slidingWindow(10, "240 s"), 
-})//four minutes 
+  limiter: Ratelimit.slidingWindow(20, "240 s"), 
+})
 
 export async function middleware(request: NextRequest) {
-  // 1. I-target lang ang root path
-  if (request.nextUrl.pathname === '/') {
-    
-    if (request.method === 'POST') {
-      const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
-                 request.headers.get('x-real-ip') || 
-                 "127.0.0.1";
+  if (request.nextUrl.pathname === '/' && request.method === 'POST') {
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || "127.0.0.1";
+    const { success } = await ratelimit.limit(ip)
 
-      const { success } = await ratelimit.limit(ip)
-
-      if (!success) {
-        return NextResponse.json(
-          { error: "Stop, please wait for a while 🥭" },
-          { status: 429 }
-        )
-      }
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many messages, please wait 4 minutes" }, // <--- Eto yung message
+        { status: 429 }
+      )
     }
   }
   return NextResponse.next()
