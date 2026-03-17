@@ -68,7 +68,7 @@ export default function Home() {
             </div>
   
               <h1 className="text-2xl font-black text-zinc-900 tracking-tighter italic uppercase text-center">
-                Mango G
+                Send your feedback, <span className="text-orange-500">Mango G</span> will listen!
               </h1>
               <p className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
                 Anonymous Feedback
