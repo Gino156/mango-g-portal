@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { submitFeedback } from './actions/submit';
 
+import Image from 'next/image';
+
 export default function Home() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,13 +40,42 @@ export default function Home() {
       <main className="w-full max-w-100 animate-in fade-in slide-in-from-bottom-6 duration-700">
         <div className="overflow-hidden rounded-[40px] bg-white/95 backdrop-blur-md shadow-2xl border border-zinc-100">
           
-          <div className="flex flex-col items-center pt-14 pb-8 px-8">
+          {/* <div className="flex flex-col items-center pt-14 pb-8 px-8">
             <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-linear-to-br from-yellow-400 to-orange-600 shadow-lg ring-4 ring-white">
               <span className="text-4xl">🥭</span>
             </div>
             <h1 className="text-2xl font-black text-zinc-900 tracking-tighter italic uppercase text-center">Mango G</h1>
             <p className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Anonymous Feedback</p>
           </div>
+           */}
+
+           <div className="flex flex-col items-center pt-14 pb-8 px-8">
+            <div className="mb-6 relative h-24 w-24 flex items-center justify-center">
+              {/* Ang Ring/Background ng Logo */}
+              <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-yellow-400 to-orange-600 shadow-lg ring-4 ring-white rotate-3"></div>
+              
+
+                  <div className="relative z-10 p-2">
+                    <Image 
+                      src="mangoglogo.svg"
+                      alt="Mango G Logo"
+                      width={80}
+                      height={80}
+                      priority
+                      className="drop-shadow-md"
+                    />
+                  </div>
+            </div>
+  
+              <h1 className="text-2xl font-black text-zinc-900 tracking-tighter italic uppercase text-center">
+                Mango G
+              </h1>
+              <p className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+                Anonymous Feedback
+              </p>
+            </div>
+
+          
 
           <div className="px-10 pb-12">
             {!isSubmitted ? (
