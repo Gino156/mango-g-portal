@@ -11,7 +11,7 @@ const redis = new Redis({
 // Limit: 3 messages per 1 minute per IP address
 const ratelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.slidingWindow(3, "3600 s"),
+  limiter: Ratelimit.slidingWindow(5, "3600 s"),
 })
 
 export async function middleware(request: NextRequest) {
