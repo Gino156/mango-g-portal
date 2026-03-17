@@ -1,7 +1,7 @@
 # 🥭 Mango G Portal
 
 ## 🎯 Project Purpose
-Mango G Portal is an **anonymous feedback collection tool** with Filipino humor (\"Masyado ka nang madaldal! Chill muna. 🥭\" - \"You're too talkative! Chill mango!\").
+Mango G Portal is an **anonymous feedback collection tool**.
  
 **Key Features:**
 - Clean, responsive UI with animations and loading states
