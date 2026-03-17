@@ -11,8 +11,8 @@ const redis = new Redis({
 // Limit: 3 messages per 1 minute per IP address
 const ratelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.slidingWindow(5, "3600 s"),
-})
+  limiter: Ratelimit.slidingWindow(10, "240 s"), 
+})//four minutes 
 
 export async function middleware(request: NextRequest) {
   // 1. I-target lang ang root path
@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
       if (!success) {
         return NextResponse.json(
-          { error: "Masyado ka nang madaldal! 3 messages per hour lang po. Chill muna. 🥭" },
+          { error: "Stop, please wait for a while 🥭" },
           { status: 429 }
         )
       }
