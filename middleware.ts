@@ -15,19 +15,22 @@ const ratelimit = new Ratelimit({
 })
 
 export async function middleware(request: NextRequest) {
+  // 1. I-target lang ang root path
   if (request.nextUrl.pathname === '/') {
-    // Kunin ang IP mula sa headers
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
-               request.headers.get('x-real-ip') || 
-               "127.0.0.1";
+    
+    if (request.method === 'POST') {
+      const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+                 request.headers.get('x-real-ip') || 
+                 "127.0.0.1";
 
-    const { success } = await ratelimit.limit(ip)
+      const { success } = await ratelimit.limit(ip)
 
-    if (!success) {
-      return NextResponse.json(
-        { error: "Masyado ka nang madaldal! 3 messages per hour lang po. Chill muna. 🥭" },
-        { status: 429 }
-      )
+      if (!success) {
+        return NextResponse.json(
+          { error: "Masyado ka nang madaldal! 3 messages per hour lang po. Chill muna. 🥭" },
+          { status: 429 }
+        )
+      }
     }
   }
   return NextResponse.next()
