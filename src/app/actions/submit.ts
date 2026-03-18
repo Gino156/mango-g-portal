@@ -23,27 +23,33 @@ export async function submitFeedback(formData: FormData) {
 
     if (dbError) throw dbError;
 
-    // 2. Send to Discord
-    // Hindi natin kailangan i-await ito para mabilis ang loading ng user
-    fetch(process.env.DISCORD_WEBHOOK_URL!, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        embeds: [{
-          title: "🥭 New Mango G Feedback!",
-          color: 0xFBBF24, // Amber/Mango Yellow
-          fields: [
-            { name: "Sender", value: nickname, inline: true },
-            { name: "Message", value: message }
-          ],
-          timestamp: new Date().toISOString()
-        }]
-      }),
-    }).catch(err => console.error("Discord Error:", err));
+    // 2. Send to Discord - KAILANGAN NG AWAIT DITO
+    // Dahil kung hindi, papatayin ni Vercel ang function bago pa makasend sa Discord
+    try {
+      const response = await fetch(process.env.DISCORD_WEBHOOK_URL!, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          embeds: [{
+            title: "🥭 New Mango G Feedback!",
+            color: 0xFBBF24, 
+            fields: [
+              { name: "Sender", value: nickname, inline: true },
+              { name: "Message", value: message }
+            ],
+            timestamp: new Date().toISOString()
+          }]
+        }),
+      });
+      
+      if (!response.ok) console.error("Discord rejected the request");
+    } catch (discordErr) {
+      console.error("Discord Fetch Error:", discordErr);
+    }
 
     return { success: true };
   } catch (err) {
-    console.error(err);
+    console.error("Critical Error:", err);
     return { error: "Failed to send feedback." };
   }
 }
