@@ -101,9 +101,6 @@ mango-g-portal/
 - Run `npm run lint` before commit
 - Add your feedback to Discord! 🥭
 
-## 📄 License
-MIT - Free to use/modify.
-
 ---
 
 *Built with ❤️ for chill feedback vibes.*
